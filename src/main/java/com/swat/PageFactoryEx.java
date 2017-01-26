@@ -1,17 +1,17 @@
 package com.swat;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
 import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+
 public class PageFactoryEx {
 
 	public static <T> T init(WebDriver driver, Class<T> pageClassToProxy) {
-		return initElements(new DefaultElementLocatorFactory(driver), driver, pageClassToProxy);
+		return initElements(new DefaultElementLocatorFactory(driver), driver,pageClassToProxy);
 	}
 
 	public static <T extends BasePage> void initWithFactory(ElementLocatorFactory factory, WebDriver driver, T page) {
@@ -24,6 +24,7 @@ public class PageFactoryEx {
 		PageFactory.initElements(factory, container);
 		initContainers(factory, driver, container);
 		return container;
+
 	}
 
 	private static <T> void initContainers(ElementLocatorFactory factory, WebDriver driver, T container) {

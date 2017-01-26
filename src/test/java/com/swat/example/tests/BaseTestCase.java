@@ -1,21 +1,20 @@
 package com.swat.example.tests;
 
-import java.awt.Toolkit;
-import java.util.concurrent.TimeUnit;
-
+import com.swat.TestProperties;
+import com.swat.WebDriverScreenshotListener;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Listeners;
 
-import com.swat.TestProperties;
-import com.swat.WebDriverScreenshotListener;
+import java.awt.*;
+import java.util.concurrent.TimeUnit;
 
 @Listeners({ WebDriverScreenshotListener.class })
 public abstract class BaseTestCase {
@@ -32,7 +31,7 @@ public abstract class BaseTestCase {
 
 	@AfterSuite(alwaysRun = true)
 	public void tearDownAfterSuite() {
-		shutDownDriver(driver);
+		//shutDownDriver(driver);
 	}
 
 	private void shutDownDriver(WebDriver driver) {
@@ -42,18 +41,18 @@ public abstract class BaseTestCase {
 	}
 
 	protected WebDriver getDriver() {
+
 		if (driver == null) {
 			String browser = TestProperties.getTestProperty("browser");
 			if ("firefox".equals(browser)) {
-				driver = new FirefoxDriver();
+				System.setProperty("webdriver.gecko.driver","/home/paul/selenium/selenium-2.48.2/geckodriver");
+				DesiredCapabilities capabilities = DesiredCapabilities.firefox();
+				capabilities.setCapability("marionette", false);
+				driver = new FirefoxDriver(capabilities);
 				maximizeWindow();
 			}  
 			if ("chrome".equals(browser)) {
 				driver = new ChromeDriver();
-			} 
-			if ("htmlunit".equals(browser)) {
-				driver = new HtmlUnitDriver(true);
-				return driver;
 			}
 			driver.manage()
 					.timeouts()
@@ -66,6 +65,8 @@ public abstract class BaseTestCase {
 									.getTestProperty("wait.page.load")),
 							TimeUnit.SECONDS);
 		}
+
+
 		return driver;
 	}
 

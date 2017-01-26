@@ -7,6 +7,7 @@ import com.swat.AbstractContainer;
 public class Buttons extends AbstractContainer {
 
 	public static class PageLocators {
+
 	}
 
 
